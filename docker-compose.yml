@@ -1,0 +1,47 @@
+version: '3.3'
+
+services:
+  iredmail:
+    image: 'iredmail/mariadb:stable'
+    container_name: iredmail/mariadb
+    hostname: mail.rgn.org.uk
+    build:
+      context: .
+      dockerfile: Dockerfiles/Dockerfile
+    ports:
+      - '80:80'     # HTTP
+      - '443:443'   # HTTPS
+      - '110:110'   # POP3 over TLS
+      - '995:995'   # POP3 over SSL
+      - '143:143'   # IMAP over TLS
+      - '993:993'   # IMAP over SSL
+      - '25:25'     # SMTP
+      - '465:465'   # SMTPS (SMTP over SSL)
+      - '587:587'   # SUBMISSION (SMTP over TLS)
+    volumes:
+        - '/iredmail/data/backup-mysql:/var/vmail/backup/mysql'
+        - '/iredmail/data/mailboxes:/var/vmail/vmail1'
+        - '/iredmail/data/mlmmj:/var/vmail/mlmmj'
+        - '/iredmail/data/mlmmj-archive:/var/vmail/mlmmj-archive'
+        - '/iredmail/data/imapsieve_copy:/var/vmail/imapsieve_copy'
+        - '/iredmail/data/custom:/opt/iredmail/custom'
+        - '/iredmail/data/ssl:/opt/iredmail/ssl'
+        - '/iredmail/data/mysql:/var/lib/mysql'
+        - '/iredmail/data/clamav:/var/lib/clamav'
+        - '/iredmail/data/sa_rules:/var/lib/spamassassin'
+        - '/iredmail/data/postfix_queue:/var/spool/postfix'
+    env_file:
+      - iredmail-docker.conf
+
+volumes:
+  iredmail_backup:           # Backup copies
+  iredmail_mailboxes:        # All users' mailboxes
+  iredmail_mlmmj:            # mailing list data
+  iredmail_mlmmj_archive:    # mailing list archive
+  iredmail_imapsieve_copy:   # Used by Dovecot plugin 'imapsieve'
+  iredmail_custom:           # custom config files
+  iredmail_ssl:              # SSL cert/key files
+  iredmail_mysql:            # MySQL databases
+  iredmail_clamav:           # ClamAV database
+  iredmail_sa_rules:         # SpamAssassin rules
+  iredmail_postfix_queue:    # Postfix queues

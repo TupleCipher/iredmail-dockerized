@@ -7,8 +7,4 @@
 #
 
 groupadd --gid 2000 vmail
-useradd \
-    --uid 2000 \
-    --gid vmail \
-    --shell /sbin/nologin \
-    vmail
+useradd --uid 2000 --gid vmail --shell /sbin/nologin vmail
