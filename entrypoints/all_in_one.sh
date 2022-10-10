@@ -8,6 +8,7 @@
 
 ENTRYPOINTS_DIR="/docker/entrypoints"
 SETTINGS_CONF="${ENTRYPOINTS_DIR}/settings.conf"
+SSL_CERTS="/docker/ssl_certs"
 
 . ${ENTRYPOINTS_DIR}/functions.sh
 
@@ -115,6 +116,9 @@ fi
 for srv in ${SUP_SERVICES}; do
     ln -sf /etc/supervisor/conf-available/${srv}.conf /etc/supervisor/conf.d/${srv}.conf
 done
+
+# copy custom ssl_certs
+cp -rf /docker/ssl_certs/* /opt/iredmail/ssl/
 
 # Run specified commands in Dockerfile `CMD`.
 LOG "CMD: $@"

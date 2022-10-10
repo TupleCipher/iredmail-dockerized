@@ -3,7 +3,7 @@ version: '3.3'
 services:
   iredmail:
     image: 'iredmail/mariadb:stable'
-    container_name: iredmail/mariadb
+    container_name: iredmail-mariadb
     hostname: mail.rgn.org.uk
     build:
       context: .

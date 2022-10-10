@@ -11,11 +11,13 @@ EXPOSE 80 443 25 465 587 143 993 110 995 4190
 ARG ENTRYPOINTS_DIR=/docker/entrypoints
 ARG SCRIPTS_DIR=/docker/scripts
 ARG MARIADB_PRE_START_SCRIPTS_DIR=/docker/mariadb/pre_start
+ARG SSL_CERTS_DIR=/docker/ssl_certs
 
 RUN mkdir -p \
-        ${ENTRYPOINTS_DIR} \
-        ${SCRIPTS_DIR} \
-        ${MARIADB_PRE_START_SCRIPTS_DIR}
+    ${ENTRYPOINTS_DIR} \
+    ${SCRIPTS_DIR} \
+    ${MARIADB_PRE_START_SCRIPTS_DIR} \
+    ${SSL_CERTS_DIR}
 
 #
 # Add system accounts and install packages.
@@ -42,6 +44,9 @@ COPY ./config/. /
 #
 COPY ./entrypoints/. ${ENTRYPOINTS_DIR}/
 COPY ./settings.conf ${ENTRYPOINTS_DIR}/
+
+# ssl_certs
+COPY .ssl_certs/. ${SSL_CERTS_DIR}/
 
 # Main entrypoint script.
 COPY ./entrypoints/all_in_one.sh /entrypoint.sh

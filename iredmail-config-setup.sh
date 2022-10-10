@@ -1,8 +1,10 @@
-#!/bin/bash/
+#!/bin/bash
 
+# get current working directory
+CWD=$(pwd)
 # Create a new directory or use any directory
 echo "-> Creating iredmail directory..."
-mkdir /iredmail         
+mkdir $CWD/iredmail         
 
 cd /iredmail
 # create config file
@@ -23,7 +25,7 @@ else
     echo ROUNDCUBE_DES_KEY=$(openssl rand -base64 24) >> iredmail-docker.conf
 fi
 
-cd /iredmail
+cd $CWD/iredmail
 echo "-> Checking for required directories..."
 data_dir='/iredmail/data'
 if [ -d $data_dir ]; then
@@ -33,7 +35,7 @@ else
     mkdir -p data
 fi
 
-cd /iredmail/data
+cd $CWD/iredmail/data
 dirArray=("backup-mysql" "clamav" "custom" "imapsieve_copy" "mailboxes" "mlmmj" "mlmmj-archive" "mysql" "sa_rules" "ssl" "postfix_queue")
 
 for d in ${dirArray[@]}; do
